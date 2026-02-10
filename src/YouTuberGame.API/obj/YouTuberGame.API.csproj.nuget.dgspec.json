@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\apdlv\\Documents\\Projects\\YouTuberGame\\server\\src\\YouTuberGame.API\\YouTuberGame.API.csproj": {}
+    "C:\\Users\\apdlv\\Documents\\Projects\\YouTuberGame-Server\\src\\YouTuberGame.API\\YouTuberGame.API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\apdlv\\Documents\\Projects\\YouTuberGame\\server\\src\\YouTuberGame.API\\YouTuberGame.API.csproj": {
+    "C:\\Users\\apdlv\\Documents\\Projects\\YouTuberGame-Server\\src\\YouTuberGame.API\\YouTuberGame.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\apdlv\\Documents\\Projects\\YouTuberGame\\server\\src\\YouTuberGame.API\\YouTuberGame.API.csproj",
+        "projectUniqueName": "C:\\Users\\apdlv\\Documents\\Projects\\YouTuberGame-Server\\src\\YouTuberGame.API\\YouTuberGame.API.csproj",
         "projectName": "YouTuberGame.API",
-        "projectPath": "C:\\Users\\apdlv\\Documents\\Projects\\YouTuberGame\\server\\src\\YouTuberGame.API\\YouTuberGame.API.csproj",
+        "projectPath": "C:\\Users\\apdlv\\Documents\\Projects\\YouTuberGame-Server\\src\\YouTuberGame.API\\YouTuberGame.API.csproj",
         "packagesPath": "C:\\Users\\apdlv\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\apdlv\\Documents\\Projects\\YouTuberGame\\server\\src\\YouTuberGame.API\\obj\\",
+        "outputPath": "C:\\Users\\apdlv\\Documents\\Projects\\YouTuberGame-Server\\src\\YouTuberGame.API\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -32,7 +32,11 @@
         "frameworks": {
           "net9.0": {
             "targetAlias": "net9.0",
-            "projectReferences": {}
+            "projectReferences": {
+              "C:\\Users\\apdlv\\Documents\\Projects\\YouTuberGame-Server\\src\\YouTuberGame.Shared\\YouTuberGame.Shared.csproj": {
+                "projectPath": "C:\\Users\\apdlv\\Documents\\Projects\\YouTuberGame-Server\\src\\YouTuberGame.Shared\\YouTuberGame.Shared.csproj"
+              }
+            }
           }
         },
         "warningProperties": {
@@ -72,6 +76,18 @@
             "Pomelo.EntityFrameworkCore.MySql": {
               "target": "Package",
               "version": "[9.0.0, )"
+            },
+            "Serilog.AspNetCore": {
+              "target": "Package",
+              "version": "[10.0.0, )"
+            },
+            "Serilog.Sinks.Console": {
+              "target": "Package",
+              "version": "[6.1.1, )"
+            },
+            "Serilog.Sinks.File": {
+              "target": "Package",
+              "version": "[7.0.0, )"
             }
           },
           "imports": [
@@ -89,6 +105,72 @@
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
             },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.300/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\apdlv\\Documents\\Projects\\YouTuberGame-Server\\src\\YouTuberGame.Shared\\YouTuberGame.Shared.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\apdlv\\Documents\\Projects\\YouTuberGame-Server\\src\\YouTuberGame.Shared\\YouTuberGame.Shared.csproj",
+        "projectName": "YouTuberGame.Shared",
+        "projectPath": "C:\\Users\\apdlv\\Documents\\Projects\\YouTuberGame-Server\\src\\YouTuberGame.Shared\\YouTuberGame.Shared.csproj",
+        "packagesPath": "C:\\Users\\apdlv\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\apdlv\\Documents\\Projects\\YouTuberGame-Server\\src\\YouTuberGame.Shared\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\apdlv\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net9.0": {
+            "targetAlias": "net9.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
