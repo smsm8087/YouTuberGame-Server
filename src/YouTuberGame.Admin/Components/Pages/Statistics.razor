@@ -1,0 +1,129 @@
+@page "/statistics"
+@inject AdminAuthService AuthService
+@inject AdminApiClient ApiClient
+@inject NavigationManager Navigation
+
+<PageTitle>통계</PageTitle>
+
+@if (!AuthService.IsAuthenticated)
+{
+    <p>로그인이 필요합니다...</p>
+    return;
+}
+
+<h1>📈 통계</h1>
+
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5>가챠 통계</h5>
+            </div>
+            <div class="card-body">
+                @if (gachaStats == null)
+                {
+                    <p><em>데이터 로딩 중...</em></p>
+                }
+                else
+                {
+                    <p><strong>총 가챠 횟수:</strong> @gachaStats.TotalDraws.ToString("N0")</p>
+
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>등급</th>
+                                <th>횟수</th>
+                                <th>실제 확률</th>
+                                <th>기대 확률</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>C</td>
+                                <td>@gachaStats.TotalCRarity</td>
+                                <td>@gachaStats.ActualCRate.ToString("F2")%</td>
+                                <td>50%</td>
+                            </tr>
+                            <tr>
+                                <td>B</td>
+                                <td>@gachaStats.TotalBRarity</td>
+                                <td>@gachaStats.ActualBRate.ToString("F2")%</td>
+                                <td>30%</td>
+                            </tr>
+                            <tr>
+                                <td>A</td>
+                                <td>@gachaStats.TotalARarity</td>
+                                <td>@gachaStats.ActualARate.ToString("F2")%</td>
+                                <td>15%</td>
+                            </tr>
+                            <tr>
+                                <td>S</td>
+                                <td>@gachaStats.TotalSRarity</td>
+                                <td>@gachaStats.ActualSRate.ToString("F2")%</td>
+                                <td>5%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h5>콘텐츠 통계</h5>
+            </div>
+            <div class="card-body">
+                @if (contentStats == null)
+                {
+                    <p><em>데이터 로딩 중...</em></p>
+                }
+                else
+                {
+                    <p><strong>총 콘텐츠:</strong> @contentStats.TotalContents.ToString("N0")</p>
+                    <p><strong>업로드 완료:</strong> @contentStats.TotalUploaded.ToString("N0")</p>
+                    <p><strong>평균 품질:</strong> @contentStats.AverageQuality.ToString("F1")</p>
+                    <p><strong>총 조회수:</strong> @contentStats.TotalViews.ToString("N0")</p>
+                    <p><strong>총 수익:</strong> @contentStats.TotalRevenue.ToString("N0") 골드</p>
+
+                    <h6 class="mt-3">장르별 분포</h6>
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>장르</th>
+                                <th>개수</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var genre in contentStats.GenreDistribution)
+                            {
+                                <tr>
+                                    <td>@genre.Key</td>
+                                    <td>@genre.Value</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private GachaStatistics? gachaStats;
+    private ContentStatistics? contentStats;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (!AuthService.IsAuthenticated)
+        {
+            Navigation.NavigateTo("/login");
+            return;
+        }
+
+        gachaStats = await ApiClient.GetGachaStatisticsAsync();
+        contentStats = await ApiClient.GetContentStatisticsAsync();
+    }
+}

@@ -13,6 +13,7 @@
 - 2026-02-11: Phase 2 콘텐츠 시스템 구현 (게임 핵심 루프) (Opus)
 - 2026-02-11: Phase 3 장비 시스템 구현 (Opus)
 - 2026-02-11: Phase 4 랭킹 시스템 구현 (Opus)
+- 2026-02-11: Phase 5 어드민 툴 구현 (Opus)
 
 ---
 ## 프로젝트 개요
@@ -56,17 +57,33 @@ YouTuberGame.sln
 | POST /api/player/equipment/{type}/upgrade | 완료 | 장비 업그레이드 (Gold 소모) |
 | GET /api/rankings/weekly | 완료 | 주간 랭킹 (구독자 기준 Top 100) |
 | GET /api/rankings/channel-power | 완료 | 채널 파워 랭킹 (Top 100) |
+| POST /api/admin/login | 완료 | 어드민 로그인 |
+| GET /api/admin/dashboard | 완료 | 대시보드 데이터 |
+| GET /api/admin/users | 완료 | 유저 목록 조회 |
+| GET /api/admin/users/{id} | 완료 | 유저 상세 조회 |
+| PUT /api/admin/users/{id}/currency | 완료 | 재화 수정 |
+| POST /api/admin/rewards/send | 완료 | 보상 지급 |
+| GET /api/admin/statistics/gacha | 완료 | 가챠 통계 |
+| GET /api/admin/statistics/content | 완료 | 콘텐츠 통계 |
 | POST /api/player/studio/upgrade | 미구현 | 스튜디오 업그레이드 |
 | GET /api/trend/today | 미구현 | 오늘의 트렌드 |
 | POST /api/purchase/verify | 미구현 | 결제 검증 |
 
-## 어드민 웹 기능 (TODO)
+## 어드민 웹 기능
+✅ **구현 완료 (Phase 5)**
+- 로그인 (비밀번호 인증)
+- 대시보드: 총 유저, DAU, 가챠 횟수, 업로드 콘텐츠
+- 유저 관리: 검색, 목록, 상세 조회, 재화 수정
+- 통계: 가챠 확률 분석, 콘텐츠 장르별 분포
+- 보상 지급: 전체/특정 유저 대상 골드/젬/경험치칩 지급
+
+🔜 **추후 구현 (MVP 이후)**
 - 공지사항 관리
 - FAQ 관리
 - 점검 ON/OFF 토글
-- 유저 조회/밴
+- 유저 밴/언밴
 - 마스터데이터 업로드 (JSON)
-- 통계 대시보드: 매출(일/주/월, ARPU, ARPPU), 유저(DAU/MAU, 리텐션), 게임내(가챠, 재화 분포)
+- 고급 통계: 매출(ARPU, ARPPU), 리텐션
 - 결제 내역 추적
 
 ## 알림 시스템 (TODO)
@@ -93,9 +110,13 @@ YouTuberGame.sln
 - 캐릭터 레벨업/돌파 시스템 구현 완료
 - 콘텐츠 제작/업로드 시스템 구현 완료 (핵심 게임 루프)
 - 장비 시스템 구현 완료
-- **랭킹 시스템 구현 완료**
+- 랭킹 시스템 구현 완료
+- **어드민 툴 (Blazor) 구현 완료**
+  - 대시보드: 유저/DAU/가챠/콘텐츠 통계
+  - 유저 관리: 검색, 재화 수정, 상세 조회
+  - 통계: 가챠 확률, 콘텐츠 분석
+  - 보상 지급: 전체/특정 유저 대상
 - DB 마이그레이션: InitialCreate, AddContentSystem, AddEquipmentSystem
-- 어드민은 Blazor 템플릿 상태 (커스텀 페이지 없음)
 - Discord Webhook 미연동
 - 스튜디오/트렌드 API 미구현
 
@@ -120,6 +141,18 @@ YouTuberGame.sln
 - `YouTuberGame.Shared/DTOs/RankingDTOs.cs` - 랭킹 DTO (RankingEntry, RankingResponse)
 - `YouTuberGame.API/Services/RankingService.cs` - 랭킹 로직 (주간/채널파워 기준 정렬, 내 순위 조회)
 - `YouTuberGame.API/Controllers/RankingController.cs` - 랭킹 API
+
+### 새로 추가된 파일 (Phase 5)
+- `YouTuberGame.Shared/DTOs/AdminDTOs.cs` - 어드민 DTO (DashboardData, AdminUserData, Statistics 등)
+- `YouTuberGame.API/Services/AdminService.cs` - 어드민 로직 (대시보드, 유저 관리, 통계, 보상 지급)
+- `YouTuberGame.API/Controllers/AdminController.cs` - 어드민 API (X-Admin-Password 헤더 인증)
+- `YouTuberGame.Admin/Services/AdminAuthService.cs` - 어드민 세션 인증
+- `YouTuberGame.Admin/Services/AdminApiClient.cs` - API 통신 클라이언트
+- `YouTuberGame.Admin/Components/Pages/Login.razor` - 로그인 페이지
+- `YouTuberGame.Admin/Components/Pages/Dashboard.razor` - 대시보드
+- `YouTuberGame.Admin/Components/Pages/Users.razor` - 유저 관리 (검색, 재화 수정, 상세 모달)
+- `YouTuberGame.Admin/Components/Pages/Statistics.razor` - 통계 (가챠, 콘텐츠)
+- `YouTuberGame.Admin/Components/Pages/Rewards.razor` - 보상 지급
 
 ## 개발 환경 설정
 ```bash

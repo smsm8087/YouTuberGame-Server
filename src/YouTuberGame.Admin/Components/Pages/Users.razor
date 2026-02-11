@@ -1,0 +1,274 @@
+@page "/users"
+@inject AdminAuthService AuthService
+@inject AdminApiClient ApiClient
+@inject NavigationManager Navigation
+
+<PageTitle>유저 관리</PageTitle>
+
+@if (!AuthService.IsAuthenticated)
+{
+    <p>로그인이 필요합니다...</p>
+    return;
+}
+
+<h1>👤 유저 관리</h1>
+
+<div class="row mt-3 mb-3">
+    <div class="col-md-6">
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="이메일, 플레이어명, 채널명 검색" @bind="searchQuery" @bind:event="oninput" />
+            <button class="btn btn-primary" @onclick="SearchUsers">검색</button>
+        </div>
+    </div>
+</div>
+
+@if (userList == null)
+{
+    <p><em>데이터 로딩 중...</em></p>
+}
+else
+{
+    <p>총 <strong>@userList.TotalCount</strong>명의 유저</p>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>이메일</th>
+                <th>플레이어명</th>
+                <th>채널명</th>
+                <th>골드</th>
+                <th>젬</th>
+                <th>구독자</th>
+                <th>가입일</th>
+                <th>최종 로그인</th>
+                <th>액션</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in userList.Users)
+            {
+                <tr>
+                    <td>@user.Email</td>
+                    <td>@user.PlayerName</td>
+                    <td>@user.ChannelName</td>
+                    <td>@user.Gold.ToString("N0")</td>
+                    <td>@user.Gem</td>
+                    <td>@user.Subscribers.ToString("N0")</td>
+                    <td>@user.CreatedAt.ToString("yyyy-MM-dd")</td>
+                    <td>@user.LastLoginAt.ToString("yyyy-MM-dd HH:mm")</td>
+                    <td>
+                        <button class="btn btn-sm btn-info" @onclick="() => ViewUserDetail(user.UserId)">상세</button>
+                        <button class="btn btn-sm btn-warning" @onclick="() => ShowEditCurrency(user)">재화 수정</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <nav>
+        <ul class="pagination">
+            @for (int i = 1; i <= Math.Ceiling((double)userList.TotalCount / 50); i++)
+            {
+                var pageNum = i;
+                <li class="page-item @(currentPage == pageNum ? "active" : "")">
+                    <a class="page-link" @onclick="() => LoadPage(pageNum)">@pageNum</a>
+                </li>
+            }
+        </ul>
+    </nav>
+}
+
+@if (selectedUser != null && showEditModal)
+{
+    <div class="modal show d-block" tabindex="-1" role="dialog" style="background: rgba(0,0,0,0.5);">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">재화 수정 - @selectedUser.PlayerName</h5>
+                    <button type="button" class="btn-close" @onclick="CloseEditModal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">골드 변경량 (+ 또는 -)</label>
+                        <input type="number" class="form-control" @bind="editGold" />
+                        <small class="text-muted">현재: @selectedUser.Gold</small>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">젬 변경량 (+ 또는 -)</label>
+                        <input type="number" class="form-control" @bind="editGem" />
+                        <small class="text-muted">현재: @selectedUser.Gem</small>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">사유</label>
+                        <input type="text" class="form-control" @bind="editReason" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" @onclick="CloseEditModal">취소</button>
+                    <button type="button" class="btn btn-primary" @onclick="SaveCurrencyEdit">저장</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@if (selectedUserDetail != null && showDetailModal)
+{
+    <div class="modal show d-block" tabindex="-1" role="dialog" style="background: rgba(0,0,0,0.5);">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">유저 상세 - @selectedUserDetail.User.PlayerName</h5>
+                    <button type="button" class="btn-close" @onclick="CloseDetailModal"></button>
+                </div>
+                <div class="modal-body">
+                    <h6>기본 정보</h6>
+                    <p>이메일: @selectedUserDetail.User.Email</p>
+                    <p>채널명: @selectedUserDetail.User.ChannelName</p>
+                    <p>골드: @selectedUserDetail.User.Gold | 젬: @selectedUserDetail.User.Gem | 구독자: @selectedUserDetail.User.Subscribers</p>
+
+                    <h6 class="mt-3">보유 캐릭터 (@(selectedUserDetail.Characters.Count)개)</h6>
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>이름</th>
+                                <th>등급</th>
+                                <th>레벨</th>
+                                <th>돌파</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var character in selectedUserDetail.Characters)
+                            {
+                                <tr>
+                                    <td>@character.CharacterName</td>
+                                    <td>@character.Rarity</td>
+                                    <td>@character.Level</td>
+                                    <td>@character.Breakthrough</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                    <h6 class="mt-3">콘텐츠 히스토리 (@(selectedUserDetail.ContentHistory.Count)개)</h6>
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>제목</th>
+                                <th>장르</th>
+                                <th>조회수</th>
+                                <th>수익</th>
+                                <th>업로드일</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var content in selectedUserDetail.ContentHistory)
+                            {
+                                <tr>
+                                    <td>@content.Title</td>
+                                    <td>@content.Genre</td>
+                                    <td>@content.Views.ToString("N0")</td>
+                                    <td>@content.Revenue.ToString("N0")</td>
+                                    <td>@content.UploadedAt.ToString("yyyy-MM-dd")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" @onclick="CloseDetailModal">닫기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    private AdminUserListResponse? userList;
+    private string searchQuery = "";
+    private int currentPage = 1;
+    private bool showEditModal = false;
+    private bool showDetailModal = false;
+    private AdminUserData? selectedUser;
+    private AdminUserDetailResponse? selectedUserDetail;
+    private long editGold = 0;
+    private long editGem = 0;
+    private string editReason = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (!AuthService.IsAuthenticated)
+        {
+            Navigation.NavigateTo("/login");
+            return;
+        }
+
+        await LoadUsers();
+    }
+
+    private async Task LoadUsers()
+    {
+        userList = await ApiClient.GetUsersAsync(string.IsNullOrEmpty(searchQuery) ? null : searchQuery, currentPage);
+    }
+
+    private async Task SearchUsers()
+    {
+        currentPage = 1;
+        await LoadUsers();
+    }
+
+    private async Task LoadPage(int page)
+    {
+        currentPage = page;
+        await LoadUsers();
+    }
+
+    private void ShowEditCurrency(AdminUserData user)
+    {
+        selectedUser = user;
+        editGold = 0;
+        editGem = 0;
+        editReason = "";
+        showEditModal = true;
+    }
+
+    private void CloseEditModal()
+    {
+        showEditModal = false;
+        selectedUser = null;
+    }
+
+    private async Task SaveCurrencyEdit()
+    {
+        if (selectedUser == null) return;
+
+        var request = new UpdateCurrencyRequest
+            {
+                Gold = editGold,
+                Gem = editGem,
+                Reason = editReason
+            };
+
+        var success = await ApiClient.UpdateUserCurrencyAsync(selectedUser.UserId, request);
+        if (success)
+        {
+            CloseEditModal();
+            await LoadUsers(); // 목록 새로고침
+        }
+    }
+
+    private async Task ViewUserDetail(string userId)
+    {
+        selectedUserDetail = await ApiClient.GetUserDetailAsync(userId);
+        if (selectedUserDetail != null)
+        {
+            showDetailModal = true;
+        }
+    }
+
+    private void CloseDetailModal()
+    {
+        showDetailModal = false;
+        selectedUserDetail = null;
+    }
+}

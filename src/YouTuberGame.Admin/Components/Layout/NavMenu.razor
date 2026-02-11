@@ -10,21 +10,42 @@
     <nav class="nav flex-column">
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
+                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> 대시보드
             </NavLink>
         </div>
 
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Counter
+            <NavLink class="nav-link" href="users">
+                <span class="bi bi-people-fill" aria-hidden="true"></span> 유저 관리
             </NavLink>
         </div>
 
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="weather">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Weather
+            <NavLink class="nav-link" href="statistics">
+                <span class="bi bi-bar-chart-fill" aria-hidden="true"></span> 통계
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="rewards">
+                <span class="bi bi-gift-fill" aria-hidden="true"></span> 보상 지급
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="login" @onclick="Logout">
+                <span class="bi bi-box-arrow-right" aria-hidden="true"></span> 로그아웃
             </NavLink>
         </div>
     </nav>
 </div>
+
+@code {
+    [Inject] private AdminAuthService? AuthService { get; set; }
+
+    private void Logout()
+    {
+        AuthService?.Logout();
+    }
+}
 

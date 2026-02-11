@@ -44,4 +44,19 @@ namespace YouTuberGame.Shared.DTOs
         public int NewBreakthrough { get; set; }
         public int NewMaxLevel { get; set; }
     }
+
+    public class CharacterInstanceDTO
+    {
+        public string InstanceId { get; set; } = string.Empty;
+        public string CharacterId { get; set; } = string.Empty;
+        public string CharacterName { get; set; } = string.Empty;
+        public CharacterRarity Rarity { get; set; }
+        public int Level { get; set; }
+        public int Experience { get; set; }
+        public int Breakthrough { get; set; }
+        public int Filming { get; set; }
+        public int Editing { get; set; }
+        public int Planning { get; set; }
+        public int Design { get; set; }
+    }
 }

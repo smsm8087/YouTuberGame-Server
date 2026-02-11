@@ -1,10 +1,15 @@
 using YouTuberGame.Admin.Components;
+using YouTuberGame.Admin.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+// Admin 서비스 등록
+builder.Services.AddSingleton<AdminAuthService>();
+builder.Services.AddHttpClient<AdminApiClient>();
 
 var app = builder.Build();
 

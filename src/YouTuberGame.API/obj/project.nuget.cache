@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "twd7ywHPeaQ=",
+  "dgSpecHash": "19dDTUgcjVE=",
   "success": true,
-  "projectFilePath": "C:\\Users\\apdlv\\Documents\\Projects\\YouTuberGame-Server\\src\\YouTuberGame.API\\YouTuberGame.API.csproj",
+  "projectFilePath": "c:\\Users\\apdlv\\Documents\\Projects\\YouTuberGame-Server\\src\\YouTuberGame.API\\YouTuberGame.API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\apdlv\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\apdlv\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",

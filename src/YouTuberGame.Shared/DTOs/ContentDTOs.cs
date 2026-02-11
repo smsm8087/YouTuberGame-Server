@@ -54,4 +54,16 @@ namespace YouTuberGame.Shared.DTOs
         public long NewSubscribers { get; set; }
         public long TotalSubscribers { get; set; }
     }
+
+    public class ContentHistoryItem
+    {
+        public string ContentId { get; set; } = string.Empty;
+        public string Title { get; set; } = string.Empty;
+        public ContentGenre Genre { get; set; }
+        public int TotalQuality { get; set; }
+        public long Views { get; set; }
+        public long Likes { get; set; }
+        public long Revenue { get; set; }
+        public DateTime UploadedAt { get; set; }
+    }
 }

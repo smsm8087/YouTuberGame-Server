@@ -1,0 +1,156 @@
+@page "/rewards"
+@inject AdminAuthService AuthService
+@inject AdminApiClient ApiClient
+@inject NavigationManager Navigation
+
+<PageTitle>보상 지급</PageTitle>
+
+@if (!AuthService.IsAuthenticated)
+{
+    <p>로그인이 필요합니다...</p>
+    return;
+}
+
+<h1>🎁 보상 지급</h1>
+
+<div class="card mt-4">
+    <div class="card-body">
+        <h5 class="card-title">전체 유저에게 보상 지급</h5>
+
+        @if (!string.IsNullOrEmpty(resultMessage))
+        {
+            <div class="alert @(resultSuccess ? "alert-success" : "alert-danger")" role="alert">
+                @resultMessage
+            </div>
+        }
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="mb-3">
+                    <label class="form-label">골드</label>
+                    <input type="number" class="form-control" @bind="rewardGold" />
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="mb-3">
+                    <label class="form-label">젬</label>
+                    <input type="number" class="form-control" @bind="rewardGem" />
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="mb-3">
+                    <label class="form-label">경험치 칩</label>
+                    <input type="number" class="form-control" @bind="rewardExpChips" />
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">지급 사유</label>
+            <input type="text" class="form-control" @bind="rewardReason" placeholder="예: 서버 점검 보상" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">대상 유저 ID (선택사항)</label>
+            <textarea class="form-control" rows="3" @bind="targetUserIds" placeholder="비워두면 전체 유저에게 지급됩니다.&#10;특정 유저에게만 지급하려면 UserId를 쉼표로 구분하여 입력하세요."></textarea>
+            <small class="text-muted">예: user1,user2,user3</small>
+        </div>
+
+        <button class="btn btn-primary" @onclick="SendReward" disabled="@isSending">
+            @if (isSending)
+            {
+                <span>지급 중...</span>
+            }
+            else
+            {
+                <span>보상 지급</span>
+            }
+        </button>
+    </div>
+</div>
+
+<div class="card mt-4">
+    <div class="card-body">
+        <h5 class="card-title">⚠️ 주의사항</h5>
+        <ul>
+            <li>보상 지급은 되돌릴 수 없습니다.</li>
+            <li>전체 유저에게 지급하는 경우, 데이터베이스의 모든 유저가 대상입니다.</li>
+            <li>음수 값을 입력하면 해당 재화를 차감합니다.</li>
+            <li>지급 사유는 로그에 기록됩니다.</li>
+        </ul>
+    </div>
+</div>
+
+@code {
+    private long rewardGold = 0;
+    private long rewardGem = 0;
+    private int rewardExpChips = 0;
+    private string rewardReason = "";
+    private string targetUserIds = "";
+    private bool isSending = false;
+    private string resultMessage = "";
+    private bool resultSuccess = false;
+
+    protected override void OnInitialized()
+    {
+        if (!AuthService.IsAuthenticated)
+        {
+            Navigation.NavigateTo("/login");
+        }
+    }
+
+    private async Task SendReward()
+    {
+        if (string.IsNullOrEmpty(rewardReason))
+        {
+            resultMessage = "지급 사유를 입력해주세요.";
+            resultSuccess = false;
+            return;
+        }
+
+        if (rewardGold == 0 && rewardGem == 0 && rewardExpChips == 0)
+        {
+            resultMessage = "지급할 재화를 입력해주세요.";
+            resultSuccess = false;
+            return;
+        }
+
+        isSending = true;
+        resultMessage = "";
+
+        var request = new SendRewardRequest
+            {
+                Gold = rewardGold,
+                Gem = rewardGem,
+                ExpChips = rewardExpChips,
+                RewardReason = rewardReason,
+                TargetUserIds = string.IsNullOrEmpty(targetUserIds)
+                    ? new List<string>()
+                    : targetUserIds.Split(',').Select(x => x.Trim()).ToList()
+            };
+
+        var response = await ApiClient.SendRewardAsync(request);
+
+        isSending = false;
+
+        if (response != null && response.Success)
+        {
+            resultMessage = response.Message;
+            resultSuccess = true;
+
+            // 폼 초기화
+            rewardGold = 0;
+            rewardGem = 0;
+            rewardExpChips = 0;
+            rewardReason = "";
+            targetUserIds = "";
+        }
+        else
+        {
+            resultMessage = response?.Message ?? "보상 지급에 실패했습니다.";
+            resultSuccess = false;
+        }
+    }
+}

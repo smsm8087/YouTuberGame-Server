@@ -1,0 +1,78 @@
+@page "/"
+@inject AdminAuthService AuthService
+@inject AdminApiClient ApiClient
+@inject NavigationManager Navigation
+
+<PageTitle>대시보드</PageTitle>
+
+@if (!AuthService.IsAuthenticated)
+{
+    <p>로그인이 필요합니다...</p>
+    return;
+}
+
+<h1>📊 대시보드</h1>
+
+@if (dashboardData == null)
+{
+    <p><em>데이터 로딩 중...</em></p>
+}
+else
+{
+    <div class="row mt-4">
+        <div class="col-md-3">
+            <div class="card text-white bg-primary mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">총 유저</h5>
+                    <p class="card-text display-4">@dashboardData.TotalUsers</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card text-white bg-success mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">DAU (24시간)</h5>
+                    <p class="card-text display-4">@dashboardData.DailyActiveUsers</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card text-white bg-info mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">총 가챠 횟수</h5>
+                    <p class="card-text display-4">@dashboardData.TotalGachaDraws</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card text-white bg-warning mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">업로드 콘텐츠</h5>
+                    <p class="card-text display-4">@dashboardData.TotalContentUploaded</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="alert alert-secondary mt-3">
+        <small>마지막 업데이트: @dashboardData.LastUpdated.ToString("yyyy-MM-dd HH:mm:ss")</small>
+    </div>
+}
+
+@code {
+    private DashboardData? dashboardData;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (!AuthService.IsAuthenticated)
+        {
+            Navigation.NavigateTo("/login");
+            return;
+        }
+
+        dashboardData = await ApiClient.GetDashboardAsync();
+    }
+}

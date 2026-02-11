@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\apdlv\\Documents\\Projects\\YouTuberGame-Server\\src\\YouTuberGame.Admin\\YouTuberGame.Admin.csproj": {}
+    "c:\\Users\\apdlv\\Documents\\Projects\\YouTuberGame-Server\\src\\YouTuberGame.Admin\\YouTuberGame.Admin.csproj": {}
   },
   "projects": {
-    "C:\\Users\\apdlv\\Documents\\Projects\\YouTuberGame-Server\\src\\YouTuberGame.Admin\\YouTuberGame.Admin.csproj": {
+    "c:\\Users\\apdlv\\Documents\\Projects\\YouTuberGame-Server\\src\\YouTuberGame.Admin\\YouTuberGame.Admin.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\apdlv\\Documents\\Projects\\YouTuberGame-Server\\src\\YouTuberGame.Admin\\YouTuberGame.Admin.csproj",
+        "projectUniqueName": "c:\\Users\\apdlv\\Documents\\Projects\\YouTuberGame-Server\\src\\YouTuberGame.Admin\\YouTuberGame.Admin.csproj",
         "projectName": "YouTuberGame.Admin",
-        "projectPath": "C:\\Users\\apdlv\\Documents\\Projects\\YouTuberGame-Server\\src\\YouTuberGame.Admin\\YouTuberGame.Admin.csproj",
+        "projectPath": "c:\\Users\\apdlv\\Documents\\Projects\\YouTuberGame-Server\\src\\YouTuberGame.Admin\\YouTuberGame.Admin.csproj",
         "packagesPath": "C:\\Users\\apdlv\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\apdlv\\Documents\\Projects\\YouTuberGame-Server\\src\\YouTuberGame.Admin\\obj\\",
+        "outputPath": "c:\\Users\\apdlv\\Documents\\Projects\\YouTuberGame-Server\\src\\YouTuberGame.Admin\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
