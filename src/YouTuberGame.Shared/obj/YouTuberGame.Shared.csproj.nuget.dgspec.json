@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\apdlv\\Documents\\Projects\\YouTuberGame\\server\\src\\YouTuberGame.Shared\\YouTuberGame.Shared.csproj": {}
+    "C:\\Users\\apdlv\\Documents\\Projects\\YouTuberGame-Server\\src\\YouTuberGame.Shared\\YouTuberGame.Shared.csproj": {}
   },
   "projects": {
-    "C:\\Users\\apdlv\\Documents\\Projects\\YouTuberGame\\server\\src\\YouTuberGame.Shared\\YouTuberGame.Shared.csproj": {
+    "C:\\Users\\apdlv\\Documents\\Projects\\YouTuberGame-Server\\src\\YouTuberGame.Shared\\YouTuberGame.Shared.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\apdlv\\Documents\\Projects\\YouTuberGame\\server\\src\\YouTuberGame.Shared\\YouTuberGame.Shared.csproj",
+        "projectUniqueName": "C:\\Users\\apdlv\\Documents\\Projects\\YouTuberGame-Server\\src\\YouTuberGame.Shared\\YouTuberGame.Shared.csproj",
         "projectName": "YouTuberGame.Shared",
-        "projectPath": "C:\\Users\\apdlv\\Documents\\Projects\\YouTuberGame\\server\\src\\YouTuberGame.Shared\\YouTuberGame.Shared.csproj",
+        "projectPath": "C:\\Users\\apdlv\\Documents\\Projects\\YouTuberGame-Server\\src\\YouTuberGame.Shared\\YouTuberGame.Shared.csproj",
         "packagesPath": "C:\\Users\\apdlv\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\apdlv\\Documents\\Projects\\YouTuberGame\\server\\src\\YouTuberGame.Shared\\obj\\",
+        "outputPath": "C:\\Users\\apdlv\\Documents\\Projects\\YouTuberGame-Server\\src\\YouTuberGame.Shared\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

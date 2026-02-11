@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/apdlv/Documents/Projects/YouTuberGame-Server/**)",
+      "Bash(git pull:*)",
+      "Bash(git commit:*)",
+      "Bash(dotnet ef migrations:*)",
+      "Bash(git push:*)"
+    ]
+  }
+}

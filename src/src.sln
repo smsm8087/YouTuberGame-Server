@@ -1,0 +1,36 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YouTuberGame.Admin", "YouTuberGame.Admin\YouTuberGame.Admin.csproj", "{97D45E75-306D-33A9-8934-9C73C0C96D72}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YouTuberGame.API", "YouTuberGame.API\YouTuberGame.API.csproj", "{BF33C8FF-B1EA-0017-11AE-024B4E7E0914}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YouTuberGame.Shared", "YouTuberGame.Shared\YouTuberGame.Shared.csproj", "{CCDA3657-B92B-E650-3AC8-894583277787}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{97D45E75-306D-33A9-8934-9C73C0C96D72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97D45E75-306D-33A9-8934-9C73C0C96D72}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97D45E75-306D-33A9-8934-9C73C0C96D72}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97D45E75-306D-33A9-8934-9C73C0C96D72}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF33C8FF-B1EA-0017-11AE-024B4E7E0914}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF33C8FF-B1EA-0017-11AE-024B4E7E0914}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF33C8FF-B1EA-0017-11AE-024B4E7E0914}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF33C8FF-B1EA-0017-11AE-024B4E7E0914}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CCDA3657-B92B-E650-3AC8-894583277787}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCDA3657-B92B-E650-3AC8-894583277787}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCDA3657-B92B-E650-3AC8-894583277787}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CCDA3657-B92B-E650-3AC8-894583277787}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CD72E28A-549C-44EB-9A3A-C8B3FE461588}
+	EndGlobalSection
+EndGlobal

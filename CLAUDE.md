@@ -11,6 +11,7 @@
 - 2026-02-11: CLAUDE.md 추가 (Opus)
 - 2026-02-11: Phase 1 캐릭터 레벨업/돌파 시스템 구현 (Opus)
 - 2026-02-11: Phase 2 콘텐츠 시스템 구현 (게임 핵심 루프) (Opus)
+- 2026-02-11: Phase 3 장비 시스템 구현 (Opus)
 
 ---
 ## 프로젝트 개요
@@ -50,8 +51,8 @@ YouTuberGame.sln
 | POST /api/content/{id}/complete | 완료 | 제작 완료 처리 |
 | POST /api/content/{id}/upload | 완료 | 콘텐츠 업로드 (조회수/수익 시뮬레이션) |
 | GET /api/content/history | 완료 | 업로드 히스토리 |
-| GET /api/player/equipment | 미구현 | 장비 조회 |
-| POST /api/player/equipment/{type}/upgrade | 미구현 | 장비 업그레이드 |
+| GET /api/player/equipment | 완료 | 장비 조회 (4종류) |
+| POST /api/player/equipment/{type}/upgrade | 완료 | 장비 업그레이드 (Gold 소모) |
 | POST /api/player/studio/upgrade | 미구현 | 스튜디오 업그레이드 |
 | GET /api/rankings/weekly | 미구현 | 주간 랭킹 |
 | GET /api/trend/today | 미구현 | 오늘의 트렌드 |
@@ -88,11 +89,12 @@ YouTuberGame.sln
 - 플레이어 데이터 CRUD 구현 완료
 - 가챠 뽑기 구현 완료
 - 캐릭터 레벨업/돌파 시스템 구현 완료
-- **콘텐츠 제작/업로드 시스템 구현 완료 (핵심 게임 루프)**
-- DB 마이그레이션: InitialCreate, AddContentSystem
+- 콘텐츠 제작/업로드 시스템 구현 완료 (핵심 게임 루프)
+- **장비 시스템 구현 완료**
+- DB 마이그레이션: InitialCreate, AddContentSystem, AddEquipmentSystem
 - 어드민은 Blazor 템플릿 상태 (커스텀 페이지 없음)
 - Discord Webhook 미연동
-- 장비/스튜디오/랭킹 API 미구현
+- 스튜디오/랭킹 API 미구현
 
 ### 새로 추가된 파일 (Phase 1)
 - `YouTuberGame.Shared/DTOs/CharacterDTOs.cs` - 레벨업/돌파 DTO
@@ -104,6 +106,12 @@ YouTuberGame.sln
 - `YouTuberGame.Shared/DTOs/ContentDTOs.cs` - 콘텐츠 제작/업로드 DTO
 - `YouTuberGame.API/Services/ContentService.cs` - 콘텐츠 제작 로직 (실시간 타이머, 품질 계산, 수익 시뮬레이션)
 - `YouTuberGame.API/Controllers/ContentController.cs` - 콘텐츠 API
+
+### 새로 추가된 파일 (Phase 3)
+- `YouTuberGame.Shared/Models/Equipment.cs` - 장비 엔티티 (4종류)
+- `YouTuberGame.Shared/DTOs/EquipmentDTOs.cs` - 장비 조회/업그레이드 DTO
+- `YouTuberGame.API/Services/EquipmentService.cs` - 장비 로직 (업그레이드 비용 Level*500, 보너스 Level*5)
+- `YouTuberGame.API/Controllers/EquipmentController.cs` - 장비 API
 
 ## 개발 환경 설정
 ```bash

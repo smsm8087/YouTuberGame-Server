@@ -14,6 +14,7 @@ namespace YouTuberGame.API.Data
         public DbSet<Character> Characters { get; set; }
         public DbSet<PlayerCharacter> PlayerCharacters { get; set; }
         public DbSet<Content> Contents { get; set; }
+        public DbSet<PlayerEquipment> PlayerEquipment { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -69,6 +70,18 @@ namespace YouTuberGame.API.Data
                 entity.HasKey(e => e.ContentId);
                 entity.HasIndex(e => e.UserId);
                 entity.Property(e => e.StartedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                entity.HasOne(e => e.User)
+                      .WithMany()
+                      .HasForeignKey(e => e.UserId)
+                      .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            // PlayerEquipment 설정
+            modelBuilder.Entity<PlayerEquipment>(entity =>
+            {
+                entity.HasKey(e => new { e.UserId, e.EquipmentType });
+                entity.HasIndex(e => e.UserId);
 
                 entity.HasOne(e => e.User)
                       .WithMany()
