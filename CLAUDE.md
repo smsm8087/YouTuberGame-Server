@@ -12,6 +12,7 @@
 - 2026-02-11: Phase 1 캐릭터 레벨업/돌파 시스템 구현 (Opus)
 - 2026-02-11: Phase 2 콘텐츠 시스템 구현 (게임 핵심 루프) (Opus)
 - 2026-02-11: Phase 3 장비 시스템 구현 (Opus)
+- 2026-02-11: Phase 4 랭킹 시스템 구현 (Opus)
 
 ---
 ## 프로젝트 개요
@@ -53,8 +54,9 @@ YouTuberGame.sln
 | GET /api/content/history | 완료 | 업로드 히스토리 |
 | GET /api/player/equipment | 완료 | 장비 조회 (4종류) |
 | POST /api/player/equipment/{type}/upgrade | 완료 | 장비 업그레이드 (Gold 소모) |
+| GET /api/rankings/weekly | 완료 | 주간 랭킹 (구독자 기준 Top 100) |
+| GET /api/rankings/channel-power | 완료 | 채널 파워 랭킹 (Top 100) |
 | POST /api/player/studio/upgrade | 미구현 | 스튜디오 업그레이드 |
-| GET /api/rankings/weekly | 미구현 | 주간 랭킹 |
 | GET /api/trend/today | 미구현 | 오늘의 트렌드 |
 | POST /api/purchase/verify | 미구현 | 결제 검증 |
 
@@ -90,11 +92,12 @@ YouTuberGame.sln
 - 가챠 뽑기 구현 완료
 - 캐릭터 레벨업/돌파 시스템 구현 완료
 - 콘텐츠 제작/업로드 시스템 구현 완료 (핵심 게임 루프)
-- **장비 시스템 구현 완료**
+- 장비 시스템 구현 완료
+- **랭킹 시스템 구현 완료**
 - DB 마이그레이션: InitialCreate, AddContentSystem, AddEquipmentSystem
 - 어드민은 Blazor 템플릿 상태 (커스텀 페이지 없음)
 - Discord Webhook 미연동
-- 스튜디오/랭킹 API 미구현
+- 스튜디오/트렌드 API 미구현
 
 ### 새로 추가된 파일 (Phase 1)
 - `YouTuberGame.Shared/DTOs/CharacterDTOs.cs` - 레벨업/돌파 DTO
@@ -112,6 +115,11 @@ YouTuberGame.sln
 - `YouTuberGame.Shared/DTOs/EquipmentDTOs.cs` - 장비 조회/업그레이드 DTO
 - `YouTuberGame.API/Services/EquipmentService.cs` - 장비 로직 (업그레이드 비용 Level*500, 보너스 Level*5)
 - `YouTuberGame.API/Controllers/EquipmentController.cs` - 장비 API
+
+### 새로 추가된 파일 (Phase 4)
+- `YouTuberGame.Shared/DTOs/RankingDTOs.cs` - 랭킹 DTO (RankingEntry, RankingResponse)
+- `YouTuberGame.API/Services/RankingService.cs` - 랭킹 로직 (주간/채널파워 기준 정렬, 내 순위 조회)
+- `YouTuberGame.API/Controllers/RankingController.cs` - 랭킹 API
 
 ## 개발 환경 설정
 ```bash

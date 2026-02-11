@@ -51,6 +51,7 @@ try
     builder.Services.AddScoped<YouTuberGame.API.Services.CharacterService>();
     builder.Services.AddScoped<YouTuberGame.API.Services.ContentService>();
     builder.Services.AddScoped<YouTuberGame.API.Services.EquipmentService>();
+    builder.Services.AddScoped<YouTuberGame.API.Services.RankingService>();
 
     // JWT 인증
     var jwtKey = builder.Configuration["Jwt:Key"];
