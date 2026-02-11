@@ -48,6 +48,8 @@ try
     // Services 등록
     builder.Services.AddScoped<YouTuberGame.API.Services.AuthService>();
     builder.Services.AddScoped<YouTuberGame.API.Services.GachaService>();
+    builder.Services.AddScoped<YouTuberGame.API.Services.CharacterService>();
+    builder.Services.AddScoped<YouTuberGame.API.Services.ContentService>();
 
     // JWT 인증
     var jwtKey = builder.Configuration["Jwt:Key"];

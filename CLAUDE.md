@@ -9,6 +9,7 @@
 ## 변경 이력
 - 2026-02-10: 프로젝트 초기 구조 생성 (Sonnet)
 - 2026-02-11: CLAUDE.md 추가 (Opus)
+- 2026-02-11: Phase 1 캐릭터 레벨업/돌파 시스템 구현 (Opus)
 
 ---
 ## 프로젝트 개요
@@ -40,7 +41,9 @@ YouTuberGame.sln
 | GET /api/player/me | 완료 | 플레이어 정보 조회 |
 | PUT /api/player/save | 완료 | 플레이어 데이터 저장 |
 | POST /api/gacha/draw | 완료 | 가챠 뽑기 |
-| POST /api/player/characters/{id}/levelup | 미구현 | 캐릭터 레벨업 |
+| GET /api/characters | 완료 | 전체 캐릭터 목록 (도감) |
+| POST /api/player/characters/{id}/levelup | 완료 | 캐릭터 레벨업 (ExpChips 소모) |
+| POST /api/player/characters/{id}/breakthrough | 완료 | 캐릭터 돌파 (중복 카드 소모) |
 | POST /api/content/start | 미구현 | 콘텐츠 제작 시작 |
 | POST /api/content/{id}/upload | 미구현 | 콘텐츠 업로드 |
 | GET /api/content/producing | 미구현 | 제작 중 콘텐츠 조회 |
@@ -81,10 +84,16 @@ YouTuberGame.sln
 - JWT 인증 (회원가입/로그인) 구현 완료
 - 플레이어 데이터 CRUD 구현 완료
 - 가챠 뽑기 구현 완료
+- **캐릭터 레벨업/돌파 시스템 구현 완료**
 - DB 마이그레이션 생성 완료 (InitialCreate)
 - 어드민은 Blazor 템플릿 상태 (커스텀 페이지 없음)
 - Discord Webhook 미연동
 - 콘텐츠/장비/스튜디오/랭킹 API 미구현
+
+### 새로 추가된 파일 (Phase 1)
+- `YouTuberGame.Shared/DTOs/CharacterDTOs.cs` - 레벨업/돌파 DTO
+- `YouTuberGame.API/Services/CharacterService.cs` - 캐릭터 성장 로직
+- `YouTuberGame.API/Controllers/CharacterController.cs` - 캐릭터 API
 
 ## 개발 환경 설정
 ```bash
