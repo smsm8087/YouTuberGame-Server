@@ -14,6 +14,8 @@
 - 2026-02-11: Phase 3 장비 시스템 구현 (Opus)
 - 2026-02-11: Phase 4 랭킹 시스템 구현 (Opus)
 - 2026-02-11: Phase 5 어드민 툴 구현 (Opus)
+- 2026-02-11: Unity 클라이언트 CharacterListScreen 구현 (Sonnet 4.5)
+- 2026-02-11: Unity APIClient 확장 + EquipmentScreen/RankingScreen 구현 (Sonnet 4.5)
 
 ---
 ## 프로젝트 개요
@@ -104,6 +106,7 @@ YouTuberGame.sln
 - 보석: $0.99(100개), $4.99(550개), $9.99(1200개)
 
 ## 현재 상태 (2026-02-11)
+### 서버 (API + Admin)
 - JWT 인증 (회원가입/로그인) 구현 완료
 - 플레이어 데이터 CRUD 구현 완료
 - 가챠 뽑기 구현 완료
@@ -119,6 +122,19 @@ YouTuberGame.sln
 - DB 마이그레이션: InitialCreate, AddContentSystem, AddEquipmentSystem
 - Discord Webhook 미연동
 - 스튜디오/트렌드 API 미구현
+
+### Unity 클라이언트 (src/Assets)
+- **APIClient.cs**: 전체 REST API 통신 (코루틴 기반)
+  - 인증, 플레이어, 가챠, 캐릭터, 콘텐츠, 장비, 랭킹 API
+  - 모든 Response DTO 클래스 포함
+- **UI 스크립트 (완성)**:
+  - LoginScreen.cs: 로그인/회원가입
+  - MainScreen.cs: 메인 화면
+  - GachaScreen.cs: 가챠 뽑기
+  - CharacterListScreen.cs: 캐릭터 목록, 레벨업
+  - EquipmentScreen.cs: 장비 4종 업그레이드
+  - RankingScreen.cs: 주간/채널파워 랭킹
+- Unity 에디터 작업 필요 (씬, 프리팹, UI 연결)
 
 ### 새로 추가된 파일 (Phase 1)
 - `YouTuberGame.Shared/DTOs/CharacterDTOs.cs` - 레벨업/돌파 DTO
