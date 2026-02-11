@@ -1,0 +1,94 @@
+# 유튜버 키우기 (Idle YouTuber Tycoon) - Server & Admin
+
+## 프로젝트 개요
+- **프레임워크**: ASP.NET Core 9.0
+- **DB**: MySQL (Pomelo EF Core)
+- **인증**: JWT Bearer + BCrypt
+- **어드민**: Blazor Server + Bootstrap 5
+- **호스팅**: Oracle Cloud 무료 티어 (DAU 5,000 이상 시 이사 고려)
+- **클라이언트 레포**: https://github.com/smsm8087/YouTuberGame
+
+## 아키텍처
+YouTuberGame.sln
+├── YouTuberGame.API          # REST API 서버
+├── YouTuberGame.Admin        # Blazor 어드민 웹
+└── YouTuberGame.Shared       # 공유 모델/DTO
+
+
+
+## 서버 원칙
+- **서버 권위 모델**: 재화 변경, 가챠, 결제 등 중요 로직은 반드시 서버에서 처리
+- **클라이언트는 표시만**: 클라가 보낸 데이터를 그대로 신뢰하지 않음
+- **API URL**: 클라이언트에서 하드코딩 금지 (Config로 관리)
+
+## API 엔드포인트 (구현 상태)
+| 엔드포인트 | 상태 | 설명 |
+|-----------|------|------|
+| POST /api/auth/register | 완료 | 회원가입 |
+| POST /api/auth/login | 완료 | 로그인 (JWT 발급) |
+| GET /api/player/me | 완료 | 플레이어 정보 조회 |
+| PUT /api/player/save | 완료 | 플레이어 데이터 저장 |
+| POST /api/gacha/draw | 완료 | 가챠 뽑기 |
+| POST /api/player/characters/{id}/levelup | 미구현 | 캐릭터 레벨업 |
+| POST /api/content/start | 미구현 | 콘텐츠 제작 시작 |
+| POST /api/content/{id}/upload | 미구현 | 콘텐츠 업로드 |
+| GET /api/content/producing | 미구현 | 제작 중 콘텐츠 조회 |
+| GET /api/player/equipment | 미구현 | 장비 조회 |
+| POST /api/player/equipment/{type}/upgrade | 미구현 | 장비 업그레이드 |
+| POST /api/player/studio/upgrade | 미구현 | 스튜디오 업그레이드 |
+| GET /api/rankings/weekly | 미구현 | 주간 랭킹 |
+| GET /api/trend/today | 미구현 | 오늘의 트렌드 |
+| POST /api/purchase/verify | 미구현 | 결제 검증 |
+
+## 어드민 웹 기능 (TODO)
+- 공지사항 관리
+- FAQ 관리
+- 점검 ON/OFF 토글
+- 유저 조회/밴
+- 마스터데이터 업로드 (JSON)
+- 통계 대시보드: 매출(일/주/월, ARPU, ARPPU), 유저(DAU/MAU, 리텐션), 게임내(가챠, 재화 분포)
+- 결제 내역 추적
+
+## 알림 시스템 (TODO)
+- Discord Webhook 연동
+- 채널: #서버-에러, #결제-알림, #일일-리포트, #신규-가입
+
+## 운영 기능 (TODO)
+- 데이터 핫 업데이트: 마스터데이터 버전 관리 → 클라 시작 시 체크
+- 무중단 배포 (Blue-Green)
+- 점검 모드: 어드민에서 토글 → 클라에서 "점검 중" 팝업
+- 일일 자동 백업
+- 로그 수집 (Serilog → 파일, 추후 ELK 고려)
+
+## 수익 모델 상품
+- 광고 제거권 $4.99 (1회)
+- 월간 구독 $2.99/월
+- 스타터 패키지 $4.99 (1회)
+- 보석: $0.99(100개), $4.99(550개), $9.99(1200개)
+
+## 현재 상태 (2026-02-11)
+- JWT 인증 (회원가입/로그인) 구현 완료
+- 플레이어 데이터 CRUD 구현 완료
+- 가챠 뽑기 구현 완료
+- DB 마이그레이션 생성 완료 (InitialCreate)
+- 어드민은 Blazor 템플릿 상태 (커스텀 페이지 없음)
+- Discord Webhook 미연동
+- 콘텐츠/장비/스튜디오/랭킹 API 미구현
+
+## 개발 환경 설정
+```bash
+# DB 생성
+mysql -u root -p -e "CREATE DATABASE youtubergame;"
+
+# 마이그레이션 적용
+cd src/YouTuberGame.API
+dotnet ef database update
+
+# 서버 실행
+dotnet run
+
+# Swagger: https://localhost:5001/swagger
+
+참고 문서
+API 명세: (클라 레포) docs/API.md
+DB 스키마: (클라 레포) docs/DATABASE.md
