@@ -10,6 +10,7 @@
 - 2026-02-10: 프로젝트 초기 구조 생성 (Sonnet)
 - 2026-02-11: CLAUDE.md 추가 (Opus)
 - 2026-02-11: Phase 1 캐릭터 레벨업/돌파 시스템 구현 (Opus)
+- 2026-02-11: Phase 2 콘텐츠 시스템 구현 (게임 핵심 루프) (Opus)
 
 ---
 ## 프로젝트 개요
@@ -44,9 +45,11 @@ YouTuberGame.sln
 | GET /api/characters | 완료 | 전체 캐릭터 목록 (도감) |
 | POST /api/player/characters/{id}/levelup | 완료 | 캐릭터 레벨업 (ExpChips 소모) |
 | POST /api/player/characters/{id}/breakthrough | 완료 | 캐릭터 돌파 (중복 카드 소모) |
-| POST /api/content/start | 미구현 | 콘텐츠 제작 시작 |
-| POST /api/content/{id}/upload | 미구현 | 콘텐츠 업로드 |
-| GET /api/content/producing | 미구현 | 제작 중 콘텐츠 조회 |
+| POST /api/content/start | 완료 | 콘텐츠 제작 시작 (캐릭터 배치, 타이머) |
+| GET /api/content/producing | 완료 | 제작 중 콘텐츠 조회 (남은 시간) |
+| POST /api/content/{id}/complete | 완료 | 제작 완료 처리 |
+| POST /api/content/{id}/upload | 완료 | 콘텐츠 업로드 (조회수/수익 시뮬레이션) |
+| GET /api/content/history | 완료 | 업로드 히스토리 |
 | GET /api/player/equipment | 미구현 | 장비 조회 |
 | POST /api/player/equipment/{type}/upgrade | 미구현 | 장비 업그레이드 |
 | POST /api/player/studio/upgrade | 미구현 | 스튜디오 업그레이드 |
@@ -84,16 +87,23 @@ YouTuberGame.sln
 - JWT 인증 (회원가입/로그인) 구현 완료
 - 플레이어 데이터 CRUD 구현 완료
 - 가챠 뽑기 구현 완료
-- **캐릭터 레벨업/돌파 시스템 구현 완료**
-- DB 마이그레이션 생성 완료 (InitialCreate)
+- 캐릭터 레벨업/돌파 시스템 구현 완료
+- **콘텐츠 제작/업로드 시스템 구현 완료 (핵심 게임 루프)**
+- DB 마이그레이션: InitialCreate, AddContentSystem
 - 어드민은 Blazor 템플릿 상태 (커스텀 페이지 없음)
 - Discord Webhook 미연동
-- 콘텐츠/장비/스튜디오/랭킹 API 미구현
+- 장비/스튜디오/랭킹 API 미구현
 
 ### 새로 추가된 파일 (Phase 1)
 - `YouTuberGame.Shared/DTOs/CharacterDTOs.cs` - 레벨업/돌파 DTO
 - `YouTuberGame.API/Services/CharacterService.cs` - 캐릭터 성장 로직
 - `YouTuberGame.API/Controllers/CharacterController.cs` - 캐릭터 API
+
+### 새로 추가된 파일 (Phase 2)
+- `YouTuberGame.Shared/Models/Content.cs` - 콘텐츠 엔티티 (Status, Genre, 품질, 타이머)
+- `YouTuberGame.Shared/DTOs/ContentDTOs.cs` - 콘텐츠 제작/업로드 DTO
+- `YouTuberGame.API/Services/ContentService.cs` - 콘텐츠 제작 로직 (실시간 타이머, 품질 계산, 수익 시뮬레이션)
+- `YouTuberGame.API/Controllers/ContentController.cs` - 콘텐츠 API
 
 ## 개발 환경 설정
 ```bash

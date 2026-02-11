@@ -13,6 +13,7 @@ namespace YouTuberGame.API.Data
         public DbSet<PlayerData> PlayerData { get; set; }
         public DbSet<Character> Characters { get; set; }
         public DbSet<PlayerCharacter> PlayerCharacters { get; set; }
+        public DbSet<Content> Contents { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -60,6 +61,19 @@ namespace YouTuberGame.API.Data
                 entity.HasOne(e => e.Character)
                       .WithMany()
                       .HasForeignKey(e => e.CharacterId);
+            });
+
+            // Content 설정
+            modelBuilder.Entity<Content>(entity =>
+            {
+                entity.HasKey(e => e.ContentId);
+                entity.HasIndex(e => e.UserId);
+                entity.Property(e => e.StartedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                entity.HasOne(e => e.User)
+                      .WithMany()
+                      .HasForeignKey(e => e.UserId)
+                      .OnDelete(DeleteBehavior.Cascade);
             });
 
             // 기본 캐릭터 데이터 시드
