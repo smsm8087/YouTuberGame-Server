@@ -60,6 +60,17 @@ namespace YouTuberGame.API.Services
 
                 _context.PlayerData.Add(playerData);
 
+                // 장비 4종 초기화 (Lv.1)
+                foreach (EquipmentType type in Enum.GetValues<EquipmentType>())
+                {
+                    _context.PlayerEquipment.Add(new PlayerEquipment
+                    {
+                        UserId = user.UserId,
+                        EquipmentType = type,
+                        Level = 1
+                    });
+                }
+
                 await _context.SaveChangesAsync();
 
                 _logger.LogInformation("User registered successfully: {UserId} - {Email}", user.UserId, user.Email);
