@@ -77,6 +77,22 @@ namespace YouTuberGame.API.Services
                     designScore += (int)(pc.Character.BaseDesign * levelMultiplier);
                 }
 
+                // 장비 보너스 적용 (장비 레벨 * 5)
+                var equipment = await _context.PlayerEquipment
+                    .Where(e => e.UserId == userId)
+                    .ToListAsync();
+                foreach (var eq in equipment)
+                {
+                    int bonus = eq.Level * 5;
+                    switch (eq.EquipmentType)
+                    {
+                        case EquipmentType.Camera: filmingScore += bonus; break;
+                        case EquipmentType.PC: editingScore += bonus; break;
+                        case EquipmentType.Light: planningScore += bonus; break;
+                        case EquipmentType.Microphone: designScore += bonus; break;
+                    }
+                }
+
                 int totalQuality = filmingScore + editingScore + planningScore + designScore;
                 int productionSeconds = GetBaseProductionTime(request.Genre);
 

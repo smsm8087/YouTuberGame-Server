@@ -83,6 +83,16 @@ namespace YouTuberGame.API.Services
                     return new UpgradeEquipmentResponse { Success = false, Message = "장비를 찾을 수 없습니다." };
                 }
 
+                const int MaxEquipmentLevel = 10;
+                if (equipment.Level >= MaxEquipmentLevel)
+                {
+                    return new UpgradeEquipmentResponse
+                    {
+                        Success = false,
+                        Message = "이미 최대 레벨입니다."
+                    };
+                }
+
                 int upgradeCost = GetUpgradeCost(equipment.Level);
 
                 if (playerData.Gold < upgradeCost)

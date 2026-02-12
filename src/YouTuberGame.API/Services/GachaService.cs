@@ -61,6 +61,11 @@ namespace YouTuberGame.API.Services
                 // 가챠 실행
                 var results = new List<GachaResult>();
                 var allCharacters = await _context.Characters.ToListAsync();
+                var ownedCharacterIds = await _context.PlayerCharacters
+                    .Where(pc => pc.UserId == userId)
+                    .Select(pc => pc.CharacterId)
+                    .ToListAsync();
+                var ownedSet = new HashSet<string>(ownedCharacterIds);
 
                 for (int i = 0; i < request.DrawCount; i++)
                 {
@@ -69,6 +74,9 @@ namespace YouTuberGame.API.Services
 
                     if (character != null)
                     {
+                        bool isNew = !ownedSet.Contains(character.CharacterId);
+                        ownedSet.Add(character.CharacterId);
+
                         // 캐릭터 인스턴스 생성
                         var playerCharacter = new PlayerCharacter
                         {
@@ -85,7 +93,7 @@ namespace YouTuberGame.API.Services
                             CharacterName = character.CharacterName,
                             Rarity = character.Rarity,
                             Specialty = character.Specialty,
-                            IsNew = true
+                            IsNew = isNew
                         });
 
                         _logger.LogInformation("Gacha draw: {UserId} got {CharacterName} ({Rarity})",

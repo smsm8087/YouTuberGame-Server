@@ -16,6 +16,8 @@
 - 2026-02-11: Phase 5 어드민 툴 구현 (Opus)
 - 2026-02-11: Unity 클라이언트 CharacterListScreen 구현 (Sonnet 4.5)
 - 2026-02-11: Unity APIClient 확장 + EquipmentScreen/RankingScreen 구현 (Sonnet 4.5)
+- 2026-02-12: 클라 코드 분리 (서버 레포 → 클라 레포로 이동) (Opus)
+- 2026-02-12: 버그 수정 - GachaService IsNew 감지, ContentService 장비 보너스 적용, 장비 최대 레벨(10) 제한 (Opus)
 
 ---
 ## 프로젝트 개요
@@ -123,18 +125,9 @@ YouTuberGame.sln
 - Discord Webhook 미연동
 - 스튜디오/트렌드 API 미구현
 
-### Unity 클라이언트 (src/Assets)
-- **APIClient.cs**: 전체 REST API 통신 (코루틴 기반)
-  - 인증, 플레이어, 가챠, 캐릭터, 콘텐츠, 장비, 랭킹 API
-  - 모든 Response DTO 클래스 포함
-- **UI 스크립트 (완성)**:
-  - LoginScreen.cs: 로그인/회원가입
-  - MainScreen.cs: 메인 화면
-  - GachaScreen.cs: 가챠 뽑기
-  - CharacterListScreen.cs: 캐릭터 목록, 레벨업
-  - EquipmentScreen.cs: 장비 4종 업그레이드
-  - RankingScreen.cs: 주간/채널파워 랭킹
-- Unity 에디터 작업 필요 (씬, 프리팹, UI 연결)
+### Unity 클라이언트
+- **클라 레포로 분리 완료** (2026-02-12): https://github.com/smsm8087/YouTuberGame
+- 서버 레포에서 src/Assets/ 삭제됨
 
 ### 새로 추가된 파일 (Phase 1)
 - `YouTuberGame.Shared/DTOs/CharacterDTOs.cs` - 레벨업/돌파 DTO
