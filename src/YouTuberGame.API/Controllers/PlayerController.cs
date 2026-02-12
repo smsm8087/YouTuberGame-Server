@@ -72,11 +72,27 @@ namespace YouTuberGame.API.Controllers
                 return NotFound(new { Message = "플레이어 데이터를 찾을 수 없습니다." });
             }
 
-            // 업데이트 (null이 아닌 값만)
-            if (request.Gold.HasValue) playerData.Gold = request.Gold.Value;
-            if (request.Gems.HasValue) playerData.Gems = request.Gems.Value;
-            if (request.Subscribers.HasValue) playerData.Subscribers = request.Subscribers.Value;
-            if (request.StudioLevel.HasValue) playerData.StudioLevel = request.StudioLevel.Value;
+            // 업데이트 (null이 아닌 값만, 음수 차단)
+            if (request.Gold.HasValue)
+            {
+                if (request.Gold.Value < 0) return BadRequest(new { Message = "골드는 0 이상이어야 합니다." });
+                playerData.Gold = request.Gold.Value;
+            }
+            if (request.Gems.HasValue)
+            {
+                if (request.Gems.Value < 0) return BadRequest(new { Message = "보석은 0 이상이어야 합니다." });
+                playerData.Gems = request.Gems.Value;
+            }
+            if (request.Subscribers.HasValue)
+            {
+                if (request.Subscribers.Value < 0) return BadRequest(new { Message = "구독자는 0 이상이어야 합니다." });
+                playerData.Subscribers = request.Subscribers.Value;
+            }
+            if (request.StudioLevel.HasValue)
+            {
+                if (request.StudioLevel.Value < 1) return BadRequest(new { Message = "스튜디오 레벨은 1 이상이어야 합니다." });
+                playerData.StudioLevel = request.StudioLevel.Value;
+            }
 
             playerData.UpdatedAt = DateTime.UtcNow;
 

@@ -20,14 +20,24 @@ try
     // Serilog 사용
     builder.Host.UseSerilog();
 
-    // CORS 설정
+    // CORS 설정 (AllowedOrigins가 "*"이면 개발 모드)
+    var allowedOrigins = builder.Configuration["AllowedOrigins"] ?? "*";
     builder.Services.AddCors(options =>
     {
         options.AddPolicy("AllowAll", policy =>
         {
-            policy.AllowAnyOrigin()
-                  .AllowAnyMethod()
-                  .AllowAnyHeader();
+            if (allowedOrigins == "*")
+            {
+                policy.AllowAnyOrigin()
+                      .AllowAnyMethod()
+                      .AllowAnyHeader();
+            }
+            else
+            {
+                policy.WithOrigins(allowedOrigins.Split(','))
+                      .AllowAnyMethod()
+                      .AllowAnyHeader();
+            }
         });
     });
 
